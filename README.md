@@ -1,6 +1,8 @@
 # CRAM Accessor
 Accessing CRAMs on UKBiobank for testing
 
+**Note : Do not use the code for the v1.0 release it is broken**. The docker image provided can still be used if when running the docker image a  `git pull` and `make` command a run to make the most recent version of the tool. See the example below.
+
 ## Run on DNANexus
 
 * The `-t` option is for number of threads (put 0 to let it choose).
