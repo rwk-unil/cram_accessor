@@ -4,6 +4,7 @@
 #include <condition_variable>
 #include <thread>
 #include <filesystem>
+#include <random>
 
 namespace fs = std::filesystem;
 
@@ -194,7 +195,11 @@ class Accessor {
 public:
     Accessor(size_t num_accesses = 1000) : NUM_ACCESSES(num_accesses) {}
 
-public:
+    int int_rand(const int & min, const int & max) {
+        static thread_local std::mt19937 generator;
+        std::uniform_int_distribution<int> distribution(min,max);
+        return distribution(generator);
+    }
 
     void access(const std::string& cram_file) {
         DataCaller dc;
@@ -211,7 +216,7 @@ public:
             std::string stid("chr20");
             int target_tid = sam_hdr_name2tid(dc.hdr, stid.c_str());
 
-            size_t position = rand() % MAX_REGION_SIZE;
+            size_t position = int_rand(60000, MAX_REGION_SIZE);
 
             /* The iterator is really important for performance */
             /** @todo Not sure about the boundaries around the iterator though ... this could be reduced*/
