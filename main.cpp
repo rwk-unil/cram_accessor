@@ -285,12 +285,12 @@ private:
             std::lock_guard lk(mutex);
             std::cerr << "Cannot find file " << cram_file << " skipping ..." << std::endl;
         } else {
-                try {
-                    Accessor r;
-                    r.access(cram_file);
-                } catch (DataCaller::DataCallerError e) {
-                    std::cerr << "Error : " << e.what << std::endl;
-                }
+            try {
+                Accessor r;
+                r.access(cram_file);
+            } catch (DataCaller::DataCallerError e) {
+                std::cerr << "Error : " << e.what << std::endl;
+            }
         }
         {
             std::lock_guard lk(mutex);
