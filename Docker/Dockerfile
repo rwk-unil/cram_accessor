@@ -22,7 +22,9 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y \
 
 # TODO put this as a binary file somewhere on the github repository and download it
 # https://github.com/samtools/htslib/blob/f68c84ff46a63fde05ae2bdf3ebdec568c9c4613/cram/cram_io.c#L2923
-COPY hts-ref.zip /root/.cache/
+RUN mkdir -p /root/.cache && \
+    curl -L https://github.com/rwk-unil/cram_accessor/releases/download/v1.0/hts-ref.zip --output /root/.cache/hts-ref.zip
+#COPY hts-ref.zip /root/.cache/
 
 RUN cd /root/.cache/ && unzip hts-ref.zip && rm -f hts-ref.zip
 
