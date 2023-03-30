@@ -35,7 +35,7 @@ RUN mkdir -p /usr/src/ && \
     chmod +x *.sh && \
     ./prepare.sh
 
-RUN cd /usr/src/pp/Docker && \
+RUN cd /usr/src/cram_accessor/Docker && \
     ./build_install.sh
 
 # Work in this temporary directory
