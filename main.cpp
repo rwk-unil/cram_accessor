@@ -279,7 +279,7 @@ private:
     /*****************/
     /* MAIN FUNCTION */
     /*****************/
-    std::function<void(size_t, std::string)> thread_fun = [this](size_t thread_idx, std::string cram_file){
+    std::function<void(size_t, size_t, std::string)> thread_fun = [this](size_t thread_idx, size_t n, std::string cram_file){
         std::cout << "CRAM file: " << cram_file << std::endl;
         if (!fs::exists(cram_file)) {
             std::lock_guard lk(mutex);
@@ -294,7 +294,7 @@ private:
         }
         {
             std::lock_guard lk(mutex);
-            std::cout << "Thread " << thread_idx << " finished" << std::endl;
+            std::cout << "Job number " << n << " which is thread " << thread_idx << " finished" << std::endl;
             active_threads[thread_idx] = false;
         }
         cv.notify_all();
@@ -302,7 +302,15 @@ private:
 
 public:
     void orchestrator_multi_thread() {
-        size_t tid = 0;
+        size_t num_jobs = 0;
+        size_t num_cram_files = 0;
+        for (const auto & entry : fs::directory_iterator(global_app_options.cram_path)) {
+            if (entry.path().extension().compare(".cram") == 0) {
+                num_cram_files++;
+            }
+        }
+        std::cout << "There are " << num_cram_files << " in " << global_app_options.cram_path << std::endl;
+
         for (const auto & entry : fs::directory_iterator(global_app_options.cram_path)) {
             if (entry.path().extension().compare(".cram") != 0) {
                 // Skip non CRAM files
@@ -324,8 +332,8 @@ public:
 
             std::cout << "Launching thread " << ti << std::endl;
             active_threads[ti] = true;
-            threads[ti] = new std::thread(thread_fun, tid, entry.path());
-            tid++;
+            threads[ti] = new std::thread(thread_fun, ti, num_jobs, entry.path());
+            num_jobs++;
         }
 
         // Final cleanup
