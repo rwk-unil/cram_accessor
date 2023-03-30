@@ -284,7 +284,7 @@ private:
                     Accessor r;
                     r.access(cram_file);
                 } catch (DataCaller::DataCallerError e) {
-                    return;
+                    std::cerr << "Error : " << e.what << std::endl;
                 }
         }
         {
