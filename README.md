@@ -1,13 +1,14 @@
 # CRAM Accessor
 Accessing CRAMs on UKBiobank for testing
 
-**Note : Do not use the code for the v1.0 release it is broken**. The docker image provided can still be used if when running the docker image a  `git pull` and `make` command a run to make the most recent version of the tool. See the example below.
+**Note : Do not use the code in the zip with the v1.0 release it is broken**. The docker image provided can still be used if when running the docker image a `git pull` and `make` command are run to make the most recent version of the tool. See the example below.
 
 ## Run on DNANexus
 
 * The `-t` option is for number of threads (put 0 to let it choose).
 * The `--cram-path` option is to specify a directory where there are CRAM files, the software will do random accesses in those files.
 * Replace the path in `-iimage_file` to where your docker image is (you can download it [here](https://github.com/rwk-unil/cram_accessor/releases/download/v1.0/cram_accessor_v1.0.tar.gz)).
+* **Note : the repo is pulled and the cram accessor is built in the command below, to make sure the most recent version of the code is used**
 
 ```shell
 dx run swiss-army-knife -icmd="echo \"$(date)\"; cd /usr/src/cram_accessor/; git pull; make; time ./cram_accessor -t 12 --cram-path \"/mnt/project/Bulk/Whole genome sequences/Whole genome CRAM files/20\"" \
